@@ -48,9 +48,13 @@ namespace BSIWageModel
             {
                 DebugStart();
             }
-            if (entry == "New Session Start: Module Loaded") { entry = "\n\n\n" + DateTime() + "==>" + entry; }
-            else { entry = "\n" + DateTime() + "==>" + entry; }
-
+            try
+            {
+                if (entry == "New Session Start: Module Loaded") { entry = "\n\n\n" + DateTime() + "==>" + entry; }
+                else { entry = "\n" + DateTime() + "==>" + entry; }
+            }
+            catch (Exception ex) { AddExceptionLog("ERROR", ex); }
+            
             System.IO.File.AppendAllText(Path.Combine(GetDirectory(), fileName), entry);
 
         }

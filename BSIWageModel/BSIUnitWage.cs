@@ -25,11 +25,22 @@ namespace BSIWageModel
             Debugger.AddEntry("GatherData Hit");
             //DEBUG LOG
 
+            //Gather Relevant Characters
+            List<CharacterObject> unitList = new List<CharacterObject>();
+            unitList.Clear();
+            foreach (CharacterObject characterObject in CharacterObject.All)
+            {
+                if (characterObject != null && !characterObject.IsTemplate && (characterObject.Occupation == Occupation.Soldier || characterObject.Occupation == Occupation.Mercenary || characterObject.Occupation == Occupation.Bandit || characterObject.Occupation == Occupation.Gangster || characterObject.Occupation == Occupation.CaravanGuard))
+                        unitList.Add(characterObject);
+            }
+            Debugger.AddEntry("Detected " + unitList.Count().ToString() + " relevant units");
+            //Run Weight Calculations on Relevant Characters
             float weightMin = fork[0];
             float weightMax = fork[1];
             List<float> initUnitScores = new List<float>();
+            initUnitScores.Clear();
 
-            foreach (CharacterObject co in CharacterObject.All)
+            foreach (CharacterObject co in unitList)
             {
                 if (co != null && !co.IsTemplate && (co.Occupation == Occupation.Soldier || co.Occupation == Occupation.Mercenary || co.Occupation == Occupation.Bandit || co.Occupation == Occupation.Gangster || co.Occupation == Occupation.CaravanGuard))
                 {
