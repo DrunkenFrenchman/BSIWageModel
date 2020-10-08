@@ -21,6 +21,10 @@ namespace BSIWageModel
 
         private static List<float> GatherData(float[] fork)
         {
+            //DEBUG LOG
+            Debugger.AddEntry("GatherData Hit");
+            //DEBUG LOG
+
             float weightMin = fork[0];
             float weightMax = fork[1];
             List<float> initUnitScores = new List<float>();
@@ -50,6 +54,11 @@ namespace BSIWageModel
                     initUnitScores.Add(weight);
                 }
             }
+
+            //DEBUG LOG
+            Debugger.AddEntry("GatherData End");
+            //DEBUG LOG
+
             return initUnitScores;
         }
         private static float GetWeightFactor(CharacterObject __instance)
@@ -71,22 +80,32 @@ namespace BSIWageModel
             return mercMult * mountedMult;
         }
 
-        public static int GetTroopWage(CharacterObject __instance)
+        public static bool GetTroopWage(ref CharacterObject __instance, ref int __result)
         {
+            //DEBUG LOG
+            Debugger.AddEntry("GetTroopWage Hit");
+            //DEBUG LOG
+
             int min = settings.BSIMinWage;
             int max = settings.BSIMaxWage;
             if (!__instance.IsHero)
             {
 
-                int wage = (int)Math.Round(min + (GetTypeFactor(__instance) * (GetWeightFactor(__instance) * (max - min))));
-                return wage;
+                __result = (int)Math.Round(min + (GetTypeFactor(__instance) * (GetWeightFactor(__instance) * (max - min))));
+                __result = Math.Max(__result, 1);
             }
 
             else
             {
-                int wage = (int)Math.Round(min + (GetTypeFactor(__instance) * (float)Math.Pow((double)(__instance.Level / 32), 2) * (max - min)));
-                return wage;
-            } 
+                __result = (int)Math.Round(min + (GetTypeFactor(__instance) * (float)Math.Pow((double)(__instance.Level / 32), 2) * (max - min)));
+                __result = Math.Max(__result, 1);
+            }
+
+            //DEBUG LOG
+            Debugger.AddEntry("GetTroopWage End");
+            //DEBUG LOG
+
+            return false;
         }
     }
 }

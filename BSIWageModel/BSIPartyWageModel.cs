@@ -16,7 +16,10 @@ namespace BSIWageModel
 
         public override int GetTotalWage(MobileParty mobileParty, StatExplainer explanation = null)
         {
-            
+            //DEBUG LOG
+            Debugger.AddEntry("GetTotalWage Hit");
+            //DEBUG LOG
+
             int num1 = 0;
             int num2 = 0;
             int num3 = 0;
@@ -27,11 +30,11 @@ namespace BSIWageModel
             foreach (TroopRosterElement member in mobileParty.MemberRoster)
             {
                 CharacterObject character = member.Character;
-                int getWage = BSIWageModel.UnitWage.GetTroopWage(character) * member.Number;
+                int getWage = character.TroopWage * member.Number;
                 if (character.IsHero)
                 {
                     if (character != mobileParty.Party.Owner.CharacterObject)
-                        num3 += BSIWageModel.UnitWage.GetTroopWage(character);
+                        num3 += character.TroopWage;
                     num3 += character.TroopWage;
                 }
                 else
@@ -93,7 +96,10 @@ namespace BSIWageModel
             }
             explainedNumber2.AddFactor(num8, DefaultPolicies.MilitaryCoronae.Name);
             explainedNumber2.AddFactor(explainedNumber1.ResultNumber - 1f, new TextObject("{=7BiaPpo2}Perk Effects"));
-            
+            //DEBUG LOG
+            Debugger.AddEntry(explainedNumber2.ResultNumber.ToString());
+            //DEBUG LOG
+
             return (int)explainedNumber2.ResultNumber;
         }
 
@@ -114,11 +120,20 @@ namespace BSIWageModel
           CharacterObject characterObject,
           CharacterObject upgradeTarget)
         {
+            //DEBUG LOG
+            Debugger.AddEntry("GetGoldCostForUpgrade Hit");
+            //DEBUG LOG
+
             ExplainedNumber stat = new ExplainedNumber((float)(this.GetTroopRecruitmentCost(upgradeTarget, (Hero)null) - this.GetTroopRecruitmentCost(characterObject, (Hero)null)) / (characterObject.Occupation != Occupation.Mercenary && characterObject.Occupation != Occupation.Gangster ? 2f : 3f));
             if (party.IsMobile && party.LeaderHero != null && party.MobileParty.HasPerk(DefaultPerks.Bow.RenownedArcher, true))
                 PerkHelper.AddPerkBonusForParty(DefaultPerks.Bow.RenownedArcher, party.MobileParty, false, ref stat);
             if (party.IsMobile && party.LeaderHero != null && party.MobileParty.HasPerk(DefaultPerks.Throwing.ThrowingCompetitions))
                 PerkHelper.AddPerkBonusForParty(DefaultPerks.Throwing.ThrowingCompetitions, party.MobileParty, true, ref stat);
+
+            //DEBUG LOG
+            Debugger.AddEntry("GetGoldCostForUpgrade End");
+            //DEBUG LOG
+
             return (int)stat.ResultNumber;
         }
 
@@ -128,7 +143,12 @@ namespace BSIWageModel
           bool withoutItemCost = false
           )
         {
-            int baseWage = (int)Math.Round(BSIWageModel.UnitWage.GetTroopWage(troop) * settings.BSIRecruitmentMult);
+
+            //DEBUG LOG
+            Debugger.AddEntry("GetTroopRecruitmentCost Hit");
+            //DEBUG LOG
+
+            int baseWage = (int)Math.Round(troop.TroopWage * settings.BSIRecruitmentMult);
             int adjustedWage = baseWage;
             if (buyerHero != null)
             {
@@ -153,6 +173,11 @@ namespace BSIWageModel
                 }
                 adjustedWage = (int)Math.Max(1, Math.Round(baseWage * explainedNumber.ResultNumber));
             }
+
+            //DEBUG LOG
+            Debugger.AddEntry("GetTroopRecruitmentCost End");
+            //DEBUG LOG
+
             return adjustedWage;
         }
     }

@@ -15,8 +15,11 @@ namespace BSIWageModel
         //Print Message in Game Helper
         public static void PrintMessage(string message) 
         {
-            if (message != null) { InformationManager.DisplayMessage(new InformationMessage(message)); }
-            else { InformationManager.DisplayMessage(new InformationMessage("BSI Wage Model tried printing null message!")); }
+            if (settings.BSIWMDebug is true)
+            {
+                if (message != null) { InformationManager.DisplayMessage(new InformationMessage(message)); }
+                else { InformationManager.DisplayMessage(new InformationMessage("BSI Wage Model tried printing null message!")); }
+            }
         }
 
         //Return Date and Time helper
