@@ -78,7 +78,6 @@ namespace BSIWageModel
             float weight = attack_points + defense_points;
             float min = weightMin;
             float max = weightMax;
-            float av = weightAv;
             float factor = (float)Math.Pow(((weight - min) / (max - min)) - (min / (max - min)), 2);
             return factor;
         }
