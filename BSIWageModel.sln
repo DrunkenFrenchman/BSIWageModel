@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSIWageModel", "BSIWageModel\BSIWageModel.csproj", "{06E36386-BA85-4F26-B134-013AF832F925}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{06E36386-BA85-4F26-B134-013AF832F925}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06E36386-BA85-4F26-B134-013AF832F925}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06E36386-BA85-4F26-B134-013AF832F925}.Debug|x64.ActiveCfg = Debug|x64
+		{06E36386-BA85-4F26-B134-013AF832F925}.Debug|x64.Build.0 = Debug|x64
+		{06E36386-BA85-4F26-B134-013AF832F925}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06E36386-BA85-4F26-B134-013AF832F925}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06E36386-BA85-4F26-B134-013AF832F925}.Release|x64.ActiveCfg = Release|x64
+		{06E36386-BA85-4F26-B134-013AF832F925}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7D2213C5-98EF-4D96-BD86-D767DF484631}
+	EndGlobalSection
+EndGlobal
