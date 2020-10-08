@@ -52,9 +52,9 @@ namespace BSIWageModel
             }
             return initUnitScores;
         }
-        private static float GetWeightFactor(CharacterObject troop)
+        private static float GetWeightFactor(CharacterObject __instance)
         {
-            troop.GetSimulationAttackPower(out float attack_points, out float defense_points);
+            __instance.GetSimulationAttackPower(out float attack_points, out float defense_points);
             float weight = attack_points + defense_points;
             float min = weightMin;
             float max = weightMax;
@@ -63,26 +63,26 @@ namespace BSIWageModel
             return factor;
         }
 
-        private static float GetTypeFactor(CharacterObject troop)
+        private static float GetTypeFactor(CharacterObject __instance)
         {
-            float mercMult = (troop.Occupation == Occupation.Mercenary || troop.Occupation == Occupation.Gangster) ? settings.BSIMercenaryWageMult : 1;
-            float mountedMult = troop.HasMount() ? settings.BSIMountedWageMult : 1;
+            float mercMult = (__instance.Occupation == Occupation.Mercenary || __instance.Occupation == Occupation.Gangster) ? settings.BSIMercenaryWageMult : 1;
+            float mountedMult = __instance.HasMount() ? settings.BSIMountedWageMult : 1;
 
             return mercMult * mountedMult;
         }
 
-        public static int GetTroopWage(CharacterObject troop)
+        public static int GetTroopWage(CharacterObject __instance)
         {
             int min = settings.BSIMinWage;
             int max = settings.BSIMaxWage;
-            if (!troop.IsHero)
+            if (!__instance.IsHero)
             {
                
-                int wage = (int)Math.Round(min + (GetTypeFactor(troop) * (GetWeightFactor(troop) * (max - min))));
+                int wage = (int)Math.Round(min + (GetTypeFactor(__instance) * (GetWeightFactor(__instance) * (max - min))));
                 return wage;
             }
 
-            else return (int)Math.Round(min + (GetTypeFactor(troop) * (float) Math.Pow((double)(troop.Level/32), 2) * (max - min)));
+            else return (int)Math.Round(min + (GetTypeFactor(__instance) * (float) Math.Pow((double)(__instance.Level/32), 2) * (max - min)));
         }
     }
 }

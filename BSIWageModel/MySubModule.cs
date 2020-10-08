@@ -32,8 +32,7 @@ namespace BSIWageModel
                 catch (Exception ex)
                 {
                     BSIWageModel.Debugger.PrintMessage("ERROR: BSI Wage Model Patches Failed at Patching!"); // Display message in Game
-                    Debugger.AddEntry("HARMONY ERROR: " + ex.Message);
-                    Debugger.AddEntry(ex.StackTrace);
+                    Debugger.AddExceptionLog("HARMONY ERROR", ex);
                 }
             }
         }
@@ -53,8 +52,7 @@ namespace BSIWageModel
                     catch (Exception ex)
                     {
                         BSIWageModel.Debugger.PrintMessage("ERROR: BSI Wage Model Failed Initializing!"); // Display message in Game
-                        Debugger.AddEntry("CAMPAIGN GAME STARTER ERROR: " + ex.Message);
-                        Debugger.AddEntry(ex.StackTrace);
+                        Debugger.AddExceptionLog("CAMPAIGN GAME STARTER ERROR", ex);
                     }
                 }
             }
@@ -70,7 +68,15 @@ namespace BSIWageModel
             
             try { Debugger.AddEntry("Data Setup Complete: Min = " + UnitWage.weightMin + " Max = " + UnitWage.weightMax + " Av = " + UnitWage.weightAv); }
 
-            catch { Debugger.AddEntry("Data Setup Null String Error"); }
+            catch (Exception ex) { Debugger.AddExceptionLog("DATA SETUP ERROR", ex); }
+
+            Debugger.AddEntry("Setting Default Party Wage Model Value");
+            try
+            {
+                typeof(GameModels).GetProperty("PartyWageModel").SetValue(Campaign.Current.Models, new BSIPartyWageModel());
+                Debugger.AddEntry("Set Party Wage Model to: " + Campaign.Current.Models.PartyWageModel.ToString());
+            }
+            catch (Exception ex) { Debugger.AddExceptionLog("PARTY WAGE MODEL SETTER ERROR", ex); }
         }
     }
 }

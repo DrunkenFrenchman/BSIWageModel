@@ -14,11 +14,14 @@ namespace BSIWageModel
             MySettings settings = MySettings.Instance;
             if (settings.BSIWMDebug is true) { Debugger.AddEntry("Starting Harmony Patches"); }
 
-            var harmony = new Harmony("wagemodel.bsi");
+            Harmony harmony = new Harmony("wagemodel.bsi");
             
-            //TroopWage Patch
-            harmony.Patch((MethodBase)typeof(CharacterObject).GetMethod("TroopWage"), new HarmonyMethod(typeof(BSITroopWage).GetMethod("TroopWage")));
-            Debugger.AddEntry("Loaded Patch: TroopWage");
+            //Unit Wage Patch
+            MethodInfo original = typeof(CharacterObject).GetProperty("TroopWage").GetGetMethod();
+            MethodInfo prefix = typeof(UnitWage).GetMethod("GetTroopWage");
+            harmony.Patch(original, prefix: new HarmonyMethod(prefix));
+            
+            Debugger.AddEntry("Loaded Patch: GetTroopWage");
         }
     }
 }

@@ -51,6 +51,12 @@ namespace BSIWageModel
             System.IO.File.AppendAllText(Path.Combine(GetDirectory(), fileName), entry);
 
         }
+        //Exception Log Helper
+        public static void AddExceptionLog(string name, Exception ex)
+        {
+            Debugger.AddEntry(name + ": " + ex.Message);
+            Debugger.AddEntry(ex.StackTrace);
+        }
 
         //Initialize Debug
         public static void DebugStart() 
