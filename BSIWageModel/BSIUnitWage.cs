@@ -71,7 +71,7 @@ namespace BSIWageModel
             return mercMult * mountedMult;
         }
 
-        public static int GetTroopWage(ref CharacterObject __instance, ref int __result)
+        public static int GetTroopWage(CharacterObject __instance)
         {
             int min = settings.BSIMinWage;
             int max = settings.BSIMaxWage;
@@ -79,14 +79,13 @@ namespace BSIWageModel
             {
 
                 int wage = (int)Math.Round(min + (GetTypeFactor(__instance) * (GetWeightFactor(__instance) * (max - min))));
-                __result = wage;
                 return wage;
             }
 
             else
             {
-                __result = (int)Math.Round(min + (GetTypeFactor(__instance) * (float)Math.Pow((double)(__instance.Level / 32), 2) * (max - min)));
-                return __result;
+                int wage = (int)Math.Round(min + (GetTypeFactor(__instance) * (float)Math.Pow((double)(__instance.Level / 32), 2) * (max - min)));
+                return wage;
             } 
         }
     }
