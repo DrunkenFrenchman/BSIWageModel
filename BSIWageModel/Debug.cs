@@ -10,7 +10,6 @@ namespace BSIWageModel
     public class Debugger
     {
         private static readonly MySettings settings = MySettings.Instance;
-        private static string pathString;
         private static string fileName = "bsi_wagemodel.debug.log";
 
         //Print Message in Game Helper
