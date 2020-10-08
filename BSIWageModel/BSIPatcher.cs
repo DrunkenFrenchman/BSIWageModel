@@ -11,8 +11,7 @@ namespace BSIWageModel
     {
         public static void DoWagePatching()
         {
-            MySettings settings = MySettings.Instance;
-            if (settings.BSIWMDebug is true) { Debugger.AddEntry("Starting Harmony Patches"); }
+            Debugger.AddEntry("Starting Harmony Patches");
 
             Harmony harmony = new Harmony("wagemodel.bsi");
             

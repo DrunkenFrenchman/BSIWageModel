@@ -16,9 +16,6 @@ namespace BSIWageModel
 
         public override int GetTotalWage(MobileParty mobileParty, StatExplainer explanation = null)
         {
-            //DEBUG LOG
-            Debugger.AddEntry("GetTotalWage Hit");
-            //DEBUG LOG
 
             int num1 = 0;
             int num2 = 0;
@@ -96,9 +93,6 @@ namespace BSIWageModel
             }
             explainedNumber2.AddFactor(num8, DefaultPolicies.MilitaryCoronae.Name);
             explainedNumber2.AddFactor(explainedNumber1.ResultNumber - 1f, new TextObject("{=7BiaPpo2}Perk Effects"));
-            //DEBUG LOG
-            Debugger.AddEntry(explainedNumber2.ResultNumber.ToString());
-            //DEBUG LOG
 
             return (int)explainedNumber2.ResultNumber;
         }
@@ -120,19 +114,11 @@ namespace BSIWageModel
           CharacterObject characterObject,
           CharacterObject upgradeTarget)
         {
-            //DEBUG LOG
-            Debugger.AddEntry("GetGoldCostForUpgrade Hit");
-            //DEBUG LOG
-
             ExplainedNumber stat = new ExplainedNumber((float)(this.GetTroopRecruitmentCost(upgradeTarget, (Hero)null) - this.GetTroopRecruitmentCost(characterObject, (Hero)null)) / (characterObject.Occupation != Occupation.Mercenary && characterObject.Occupation != Occupation.Gangster ? 2f : 3f));
             if (party.IsMobile && party.LeaderHero != null && party.MobileParty.HasPerk(DefaultPerks.Bow.RenownedArcher, true))
                 PerkHelper.AddPerkBonusForParty(DefaultPerks.Bow.RenownedArcher, party.MobileParty, false, ref stat);
             if (party.IsMobile && party.LeaderHero != null && party.MobileParty.HasPerk(DefaultPerks.Throwing.ThrowingCompetitions))
                 PerkHelper.AddPerkBonusForParty(DefaultPerks.Throwing.ThrowingCompetitions, party.MobileParty, true, ref stat);
-
-            //DEBUG LOG
-            Debugger.AddEntry("GetGoldCostForUpgrade End");
-            //DEBUG LOG
 
             return (int)stat.ResultNumber;
         }
@@ -143,10 +129,6 @@ namespace BSIWageModel
           bool withoutItemCost = false
           )
         {
-
-            //DEBUG LOG
-            Debugger.AddEntry("GetTroopRecruitmentCost Hit");
-            //DEBUG LOG
 
             int baseWage = (int)Math.Round(troop.TroopWage * settings.BSIRecruitmentMult);
             int adjustedWage = baseWage;
@@ -173,11 +155,6 @@ namespace BSIWageModel
                 }
                 adjustedWage = (int)Math.Max(1, Math.Round(baseWage * explainedNumber.ResultNumber));
             }
-
-            //DEBUG LOG
-            Debugger.AddEntry("GetTroopRecruitmentCost End");
-            //DEBUG LOG
-
             return adjustedWage;
         }
     }

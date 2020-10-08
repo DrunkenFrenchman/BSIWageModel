@@ -34,7 +34,7 @@ namespace BSIWageModel
                 if (co != null && !co.IsTemplate && (co.Occupation == Occupation.Soldier || co.Occupation == Occupation.Mercenary || co.Occupation == Occupation.Bandit || co.Occupation == Occupation.Gangster || co.Occupation == Occupation.CaravanGuard))
                 {
 
-                    co.GetSimulationAttackPower(out float attack_points, out float defense_points);
+                    co.GetSimulationAttackPower(out float attack_points, out float defense_points, co.Equipment);
                     float weight = (attack_points + defense_points);
 
                     if (weightMin != -1 && weight < weightMin)
@@ -82,9 +82,6 @@ namespace BSIWageModel
 
         public static bool GetTroopWage(ref CharacterObject __instance, ref int __result)
         {
-            //DEBUG LOG
-            Debugger.AddEntry("GetTroopWage Hit");
-            //DEBUG LOG
 
             int min = settings.BSIMinWage;
             int max = settings.BSIMaxWage;
@@ -100,10 +97,6 @@ namespace BSIWageModel
                 __result = (int)Math.Round(min + (GetTypeFactor(__instance) * (float)Math.Pow((double)(__instance.Level / 32), 2) * (max - min)));
                 __result = Math.Max(__result, 1);
             }
-
-            //DEBUG LOG
-            Debugger.AddEntry("GetTroopWage End");
-            //DEBUG LOG
 
             return false;
         }
