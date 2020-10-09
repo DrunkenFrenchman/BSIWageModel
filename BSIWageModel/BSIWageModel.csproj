@@ -234,13 +234,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BSIPartyWageModel.cs" />
-    <Compile Include="BSIUnitWage.cs" />
-    <Compile Include="BSIPatcher.cs" />
-    <Compile Include="BSICharacterObjectPatch.cs" />
+    <Compile Include="WageModel\BSIPartyWageModel.cs" />
+    <Compile Include="WageModel\BSIUnitWage.cs" />
+    <Compile Include="WageModel\BSIPatcher.cs" />
+    <Compile Include="WageModel\BSICharacterObjectPatch.cs" />
     <Compile Include="Debug.cs" />
-    <Compile Include="MySettings.cs" />
-    <Compile Include="MySubModule.cs" />
+    <Compile Include="WageModel\MySettings.cs" />
+    <Compile Include="WageModel\MySubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

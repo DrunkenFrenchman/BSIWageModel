@@ -2,7 +2,7 @@
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 
-namespace BSIWageModel
+namespace BSI.WageModel
 {
     //[HarmonyPatch(typeof(CharacterObject), "TroopWage")]
     public class BSICharacterPatch : BasicCharacterObject
@@ -12,10 +12,10 @@ namespace BSIWageModel
         {
             try
             {
-                Debugger.AddEntry("Getting Unit Wage for " + __instance.Name.ToString());
-                BSIWageModel.UnitWage.GetTroopWage(ref __instance, ref __result);
+                Debug.AddEntry("Getting Unit Wage for " + __instance.Name.ToString());
+                BSI.WageModel.UnitWage.GetTroopWage(ref __instance, ref __result);
             }
-            catch (Exception ex) { Debugger.AddExceptionLog("UNIT WAGE ERROR", ex); }
+            catch (Exception ex) { Debug.AddExceptionLog("UNIT WAGE ERROR", ex); }
 
             return false;
         }

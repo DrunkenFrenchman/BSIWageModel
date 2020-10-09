@@ -4,11 +4,11 @@ using TaleWorlds.MountAndBlade;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 
-namespace BSIWageModel
+namespace BSI.WageModel
 {
     public class MySubModule : MBSubModuleBase
     {
-        public const string ModId = "BSIWageModel";
+        public const string ModId = "BSI.WageModel";
         public const string ModName = "BSI Wage Model";
         private static readonly MySettings settings = MySettings.Instance;
         protected override void OnSubModuleLoad()
@@ -19,7 +19,7 @@ namespace BSIWageModel
             if (settings.BSIWMDebug is true)
             {
                 Harmony.DEBUG = true;
-                Debugger.DebugStart();
+                Debug.DebugStart();
             }
             if (settings.BSIWageModelToggle is true)
             {
@@ -27,12 +27,12 @@ namespace BSIWageModel
                 try
                 {
                     BSIPatcher.DoWagePatching();
-                    BSIWageModel.Debugger.PrintMessage("BSI Wage Model Loaded All Patches"); // Display message on chatlog 
+                    BSI.Debug.PrintMessage("BSI Wage Model Loaded All Patches"); // Display message on chatlog 
                 }
                 catch (Exception ex)
                 {
-                    BSIWageModel.Debugger.PrintMessage("ERROR: BSI Wage Model Patches Failed at Patching!"); // Display message in Game
-                    Debugger.AddExceptionLog("HARMONY ERROR", ex);
+                    BSI.Debug.PrintMessage("ERROR: BSI Wage Model Patches Failed at Patching!"); // Display message in Game
+                    Debug.AddExceptionLog("HARMONY ERROR", ex);
                 }
             }
         }
@@ -47,12 +47,12 @@ namespace BSIWageModel
                     try
                     {
                         cgs.AddModel(new BSIPartyWageModel());
-                        Debugger.AddEntry("BSIPartyWageModel added");
+                        Debug.AddEntry("BSIPartyWageModel added");
                     }
                     catch (Exception ex)
                     {
-                        BSIWageModel.Debugger.PrintMessage("ERROR: BSI Wage Model Failed Initializing!"); // Display message in Game
-                        Debugger.AddExceptionLog("CAMPAIGN GAME STARTER ERROR", ex);
+                        BSI.Debug.PrintMessage("ERROR: BSI Wage Model Failed Initializing!"); // Display message in Game
+                        Debug.AddExceptionLog("CAMPAIGN GAME STARTER ERROR", ex);
                     }
                 }
             }
@@ -60,17 +60,17 @@ namespace BSIWageModel
 
         public override void OnGameInitializationFinished(Game game)
         {
-            Debugger.AddEntry("Starting Data Setup");
+            Debug.AddEntry("Starting Data Setup");
 
             UnitWage.DataSetup();
 
-            Debugger.AddEntry("Setting Default Party Wage Model Value");
+            Debug.AddEntry("Setting Default Party Wage Model Value");
             try
             {
                 typeof(GameModels).GetProperty("PartyWageModel").SetValue(Campaign.Current.Models, new BSIPartyWageModel());
-                Debugger.AddEntry("Set Party Wage Model to: " + Campaign.Current.Models.PartyWageModel.ToString());
+                Debug.AddEntry("Set Party Wage Model to: " + Campaign.Current.Models.PartyWageModel.ToString());
             }
-            catch (Exception ex) { Debugger.AddExceptionLog("PARTY WAGE MODEL SETTER ERROR", ex); }
+            catch (Exception ex) { Debug.AddExceptionLog("PARTY WAGE MODEL SETTER ERROR", ex); }
         }
     }
 }

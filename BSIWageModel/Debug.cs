@@ -1,15 +1,13 @@
 ﻿using System;
 using System.IO;
 using TaleWorlds.Core;
-using System.Xml;
-using System.Net;
 
-namespace BSIWageModel
+namespace BSI
 {
 
-    public class Debugger
+    public class Debug
     {
-        private static readonly MySettings settings = MySettings.Instance;
+        private static readonly BSI.WageModel.MySettings settings = BSI.WageModel.MySettings.Instance;
         private static readonly string fileName = "bsi_wagemodel.debug.log";
 
         //Print Message in Game Helper
@@ -61,8 +59,8 @@ namespace BSIWageModel
         //Exception Log Helper
         public static void AddExceptionLog(string name, Exception ex)
         {
-            Debugger.AddEntry(name + ": " + ex.Message);
-            Debugger.AddEntry(ex.StackTrace);
+            Debug.AddEntry(name + ": " + ex.Message);
+            Debug.AddEntry(ex.StackTrace);
         }
 
         //Initialize Debug
@@ -72,7 +70,7 @@ namespace BSIWageModel
             if (!System.IO.Directory.Exists(GetDirectory()))
             {
                 System.IO.Directory.CreateDirectory(GetDirectory());
-                BSIWageModel.Debugger.PrintMessage("BSI Wage Model Debug File Path Created");
+                Debug.PrintMessage("BSI Wage Model Debug File Path Created");
                 AddEntry("Log Folder Created");
             }
           

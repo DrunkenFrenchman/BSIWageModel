@@ -2,12 +2,10 @@
 
 using Helpers;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.CampaignSystem.SandBox.GameComponents.Party;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
-using HarmonyLib;
 
-namespace BSIWageModel
+namespace BSI.WageModel
 {
     public class BSIPartyWageModel : PartyWageModel
     {

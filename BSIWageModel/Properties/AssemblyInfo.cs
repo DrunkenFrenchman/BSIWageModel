@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BSIWageModel")]
+[assembly: AssemblyTitle("BSI.WageModel")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BSIWageModel")]
+[assembly: AssemblyProduct("BSI.WageModel")]
 [assembly: AssemblyCopyright("Copyright © DrunkenFrenchman 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

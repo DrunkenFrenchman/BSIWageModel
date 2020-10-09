@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
-using TaleWorlds.ObjectSystem;
 
-namespace BSIWageModel
+namespace BSI.WageModel
 {
     public class UnitWage
     {
@@ -23,7 +22,7 @@ namespace BSIWageModel
         private static void GatherWeightData()
         {
             //DEBUG LOG
-            Debugger.AddEntry("Gather Weight Data Hit");
+            Debug.AddEntry("Gather Weight Data Hit");
             //DEBUG LOG            
            
             //Run Weight Calculations on Relevant Characters
@@ -57,7 +56,7 @@ namespace BSIWageModel
             weightMax = initUnitScores.Max();
 
             //DEBUG LOG
-            Debugger.AddEntry("Gather Weight Data End || Min =" + weightMin + " || Max =" + weightMax);
+            Debug.AddEntry("Gather Weight Data End || Min =" + weightMin + " || Max =" + weightMax);
             //DEBUG LOG
         }
 
@@ -65,7 +64,7 @@ namespace BSIWageModel
         public static void GatherValidCharacters()
         {
             unitList.Clear();
-            Debugger.AddEntry("Gathering Valid Characters with BSI Compat Option set to " + settings.BSIMainModCompat.ToString());
+            Debug.AddEntry("Gathering Valid Characters with BSI Compat Option set to " + settings.BSIMainModCompat.ToString());
             foreach (CharacterObject characterObject in CharacterObject.All)
             {
                 if (settings.BSIMainModCompat is true && characterObject.StringId.StartsWith("mod_"))
@@ -81,19 +80,19 @@ namespace BSIWageModel
             //User Error Exception Catcher
             if (unitList.IsEmpty())
             {
-                Debugger.AddEntry("Method Found no valid troops! Please make sure are not using Main Mod Compat option incorrectly!");
-                Debugger.PrintMessage("ERROR: Please make sure only use BSI Wage Model Compatiblity Options if needed!");
+                Debug.AddEntry("Method Found no valid troops! Please make sure are not using Main Mod Compat option incorrectly!");
+                Debug.PrintMessage("ERROR: Please make sure only use BSI Wage Model Compatiblity Options if needed!");
                 settings.BSIMainModCompat = false;
                 try { GatherValidCharacters(); }
-                catch (Exception ex) { Debugger.AddExceptionLog("GATHER VALID CHARACTERS ERROR", ex); }
+                catch (Exception ex) { Debug.AddExceptionLog("GATHER VALID CHARACTERS ERROR", ex); }
             }
-            Debugger.AddEntry("Detected " + unitList.Count().ToString() + " relevant units");
+            Debug.AddEntry("Detected " + unitList.Count().ToString() + " relevant units");
         }
 
         //Build List for Min and Max equipment value
         public static void GatherEquipmentData()
         {
-            Debugger.AddEntry("Gather Equipment Data Hit");
+            Debug.AddEntry("Gather Equipment Data Hit");
 
             List<float> initEquipmentScores = new List<float>();
             foreach (CharacterObject co in unitList)
@@ -116,7 +115,7 @@ namespace BSIWageModel
             valueMin = initEquipmentScores.Min();
             valueMax = initEquipmentScores.Max();
 
-            Debugger.AddEntry("Gather Equipment Data End || Min =" + valueMin + " || Max =" + valueMax);
+            Debug.AddEntry("Gather Equipment Data End || Min =" + valueMin + " || Max =" + valueMax);
         }
 
         private static float GetWeightFactor(CharacterObject __instance)

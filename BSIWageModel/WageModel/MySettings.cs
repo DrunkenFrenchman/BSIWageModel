@@ -5,13 +5,13 @@ using MCM.Abstractions.Settings.Base.Global;
 
 
 
-namespace BSIWageModel
+namespace BSI.WageModel
 {
     public class MySettings : AttributeGlobalSettings<MySettings>
     {
-        public override string Id => "BSIWageModel";
+        public override string Id => "BSI.WageModel";
         public override string DisplayName => "BSI Wage Model";
-        public override string FolderName => "BSIWageModel";
+        public override string FolderName => "BSI.WageModel";
         public override string Format => "json";
 
         //Main Settings for Wage Model
@@ -53,7 +53,7 @@ namespace BSIWageModel
         [SettingPropertyGroup("{=BSIWM_SETTING_GROUP_03}3. Mod Compatibility Options", GroupOrder = 2)]
         public bool BSIMainModCompat { get; set; } = true;
 
-        //Debugger Toggle
+        //Debug Toggle
         [SettingPropertyBool("{=BSIWM_SETTING_DEBUG}Debugging", HintText = "{=BSIWM_SETTING_DESC_DEBUG}Check this to enable Debug mode", Order = 0, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIWM_SETTING_GROUP_03}4. Debug", GroupOrder = 3)]
         public bool BSIWMDebug { get; set; } = true;
