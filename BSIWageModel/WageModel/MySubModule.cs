@@ -27,11 +27,11 @@ namespace BSI.WageModel
                 try
                 {
                     BSIPatcher.DoWagePatching();
-                    BSI.Debug.PrintMessage("BSI Wage Model Loaded All Patches"); // Display message on chatlog 
+                    BSI.WageModel.Debug.PrintMessage("BSI Wage Model Loaded All Patches"); // Display message on chatlog 
                 }
                 catch (Exception ex)
                 {
-                    BSI.Debug.PrintMessage("ERROR: BSI Wage Model Patches Failed at Patching!"); // Display message in Game
+                    BSI.WageModel.Debug.PrintMessage("ERROR: BSI Wage Model Patches Failed at Patching!"); // Display message in Game
                     Debug.AddExceptionLog("HARMONY ERROR", ex);
                 }
             }
@@ -51,7 +51,7 @@ namespace BSI.WageModel
                     }
                     catch (Exception ex)
                     {
-                        BSI.Debug.PrintMessage("ERROR: BSI Wage Model Failed Initializing!"); // Display message in Game
+                        BSI.WageModel.Debug.PrintMessage("ERROR: BSI Wage Model Failed Initializing!"); // Display message in Game
                         Debug.AddExceptionLog("CAMPAIGN GAME STARTER ERROR", ex);
                     }
                 }

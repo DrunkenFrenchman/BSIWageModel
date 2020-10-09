@@ -239,7 +239,7 @@
     <Compile Include="WageModel\BSIPatcher.cs" />
     <Compile Include="WageModel\BSICharacterObjectPatch.cs" />
     <Compile Include="Debug.cs" />
-    <Compile Include="WageModel\MySettings.cs" />
+    <Compile Include="MySettings.cs" />
     <Compile Include="WageModel\MySubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

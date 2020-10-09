@@ -1,14 +1,15 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using TaleWorlds.Core;
 
-namespace BSI
+namespace BSI.WageModel
 {
 
     public class Debug
     {
         private static readonly BSI.WageModel.MySettings settings = BSI.WageModel.MySettings.Instance;
-        private static readonly string fileName = "bsi_wagemodel.debug.log";
+        private static readonly string fileName = typeof(Debug).Namespace +  ".debug.log";
 
         //Print Message in Game Helper
         public static void PrintMessage(string message) 
@@ -16,7 +17,7 @@ namespace BSI
             if (settings.BSIWMDebug is true)
             {
                 if (message != null) { InformationManager.DisplayMessage(new InformationMessage(message)); }
-                else { InformationManager.DisplayMessage(new InformationMessage("BSI Wage Model tried printing null message!")); }
+                else { InformationManager.DisplayMessage(new InformationMessage(typeof(Debug).Namespace + " tried printing null message!")); }
             }
         }
 
@@ -70,7 +71,7 @@ namespace BSI
             if (!System.IO.Directory.Exists(GetDirectory()))
             {
                 System.IO.Directory.CreateDirectory(GetDirectory());
-                Debug.PrintMessage("BSI Wage Model Debug File Path Created");
+                Debug.PrintMessage(typeof(Debug).Namespace + " Debug File Path Created");
                 AddEntry("Log Folder Created");
             }
           
