@@ -19,7 +19,7 @@ namespace BSIWageModel
         [SettingPropertyBool("{=BSIWM_SETTING_08}Wage Model", HintText = "{=BSIWM_SETTING_DESC_12}Check this to enable 'Wage Model'", Order = 0, RequireRestart = true)]
         [SettingPropertyGroup("{=BSIWM_SETTING_GROUP_03}Wage Model", GroupOrder = 0, IsMainToggle = true)]
         public bool BSIWageModelToggle { get; set; } = true;
-        [SettingPropertyInteger("{=BSIWM_SETTING_32}Minimum Troop Wage", 1, 25, HintText = "{=BSIWM_SETTING_DESC_32}This number determines the minimum wage paid to a troop. MUST BE SMALLER THAN MAX WAGE MAX", Order = 1, RequireRestart = false)]
+        [SettingPropertyInteger("{=BSIWM_SETTING_32}Minimum Troop Wage", 1, 25, HintText = "{=BSIWM_SETTING_DESC_32}This number determines the minimum wage paid to a troop. MUST BE SMALLER THAN MAX WAGE", Order = 1, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIWM_SETTING_GROUP_01}Wage Model", GroupOrder = 0)]
         public int BSIMinWage { get; set; } = 1;
         [SettingPropertyInteger("{=BSIWM_SETTING_01}Maximum Troop Wage", 1, 300, HintText = "{=BSIWM_SETTING_DESC_01}This number determines the maximum wage paid to a troop before mounted and mercenary multipliers are applied. MUST BE LARGER THAN MINIMUM", Order = 2, RequireRestart = false)]

@@ -75,9 +75,8 @@ namespace BSIWageModel
                 {
                     unitList.Add(characterObject);
                 }
-                Debugger.AddEntry("Detected " + unitList.Count().ToString() + " relevant units");
-
             }
+            Debugger.AddEntry("Detected " + unitList.Count().ToString() + " relevant units");
         }
 
         //Build List for Min and Max equipment value
