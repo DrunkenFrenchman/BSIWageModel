@@ -61,14 +61,8 @@ namespace BSIWageModel
         public override void OnGameInitializationFinished(Game game)
         {
             Debugger.AddEntry("Starting Data Setup");
-            UnitWage.DataSetup(out float min, out float max, out float av);
-            UnitWage.weightMin = min;
-            UnitWage.weightMax = max;
-            UnitWage.weightAv = av;
-            
-            try { Debugger.AddEntry("Data Setup Complete: Min = " + UnitWage.weightMin + " Max = " + UnitWage.weightMax + " Av = " + UnitWage.weightAv); }
 
-            catch (Exception ex) { Debugger.AddExceptionLog("DATA SETUP ERROR", ex); }
+            UnitWage.DataSetup();
 
             Debugger.AddEntry("Setting Default Party Wage Model Value");
             try

@@ -2,84 +2,132 @@
 using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.Core;
+using TaleWorlds.ObjectSystem;
 
 namespace BSIWageModel
 {
     public class UnitWage
     {
         private static readonly MySettings settings = MySettings.Instance;
-
-        public static float weightMin, weightMax, weightAv;
-        public static void DataSetup(out float min, out float max, out float av)
+        public static List<CharacterObject> unitList = new List<CharacterObject>();
+        public static float weightMin, weightMax;
+        public static float valueMin, valueMax;
+        public static void DataSetup()
         {
-            float[] weightFork = new float[2] { -1, -1 };
-            List<float> unitScores = new List<float>(GatherData(weightFork));
-            min = unitScores.Min();
-            max = unitScores.Max();
-            av = unitScores.Average();
+            GatherValidCharacters();
+            GatherWeightData();
+            GatherEquipmentData();
         }
 
-        private static List<float> GatherData(float[] fork)
+        private static void GatherWeightData()
         {
             //DEBUG LOG
-            Debugger.AddEntry("GatherData Hit");
-            //DEBUG LOG
-
-            //Gather Relevant Characters
-            List<CharacterObject> unitList = new List<CharacterObject>();
-            unitList.Clear();
-            foreach (CharacterObject characterObject in CharacterObject.All)
-            {
-                if (characterObject != null && !characterObject.IsTemplate && (characterObject.Occupation == Occupation.Soldier || characterObject.Occupation == Occupation.Mercenary || characterObject.Occupation == Occupation.Bandit || characterObject.Occupation == Occupation.Gangster || characterObject.Occupation == Occupation.CaravanGuard))
-                        unitList.Add(characterObject);
-            }
-            Debugger.AddEntry("Detected " + unitList.Count().ToString() + " relevant units");
+            Debugger.AddEntry("Gather Weight Data Hit");
+            //DEBUG LOG            
+           
             //Run Weight Calculations on Relevant Characters
-            float weightMin = fork[0];
-            float weightMax = fork[1];
+ 
             List<float> initUnitScores = new List<float>();
             initUnitScores.Clear();
 
             foreach (CharacterObject co in unitList)
             {
-                if (co != null && !co.IsTemplate && (co.Occupation == Occupation.Soldier || co.Occupation == Occupation.Mercenary || co.Occupation == Occupation.Bandit || co.Occupation == Occupation.Gangster || co.Occupation == Occupation.CaravanGuard))
+                co.GetSimulationAttackPower(out float attack_points, out float defense_points, co.Equipment);
+                float weight = (attack_points + defense_points);
+
+                if (weightMin != -1 && weight < weightMin)
                 {
-
-                    co.GetSimulationAttackPower(out float attack_points, out float defense_points, co.Equipment);
-                    float weight = (attack_points + defense_points);
-
-                    if (weightMin != -1 && weight < weightMin)
-                    {
-                        weightMin = weight;
-                    }
-                    if (weightMax != -1 && weight > weightMax)
-                    {
-                        weightMax = weight;
-                    }
-                    else
-                    {
-                        weightMin = weight;
-                        weightMax = weight;
-                    }
-
-                    initUnitScores.Add(weight);
+                    weightMin = weight;
                 }
+                if (weightMax != -1 && weight > weightMax)
+                {
+                    weightMax = weight;
+                }
+                else
+                {
+                    weightMin = weight;
+                    weightMax = weight;
+                }
+
+                initUnitScores.Add(weight);
             }
 
-            //DEBUG LOG
-            Debugger.AddEntry("GatherData End");
-            //DEBUG LOG
+            weightMin = initUnitScores.Min();
+            weightMax = initUnitScores.Max();
 
-            return initUnitScores;
+            //DEBUG LOG
+            Debugger.AddEntry("Gather Weight Data End || Min =" + weightMin + " || Max =" + weightMax);
+            //DEBUG LOG
         }
+        //Build List of Valid Chars
+        public static void GatherValidCharacters()
+        {
+            unitList.Clear();
+            foreach (CharacterObject characterObject in CharacterObject.All)
+            {
+                if (characterObject != null && !characterObject.IsTemplate && (characterObject.Occupation == Occupation.Soldier || characterObject.Occupation == Occupation.Mercenary || characterObject.Occupation == Occupation.Bandit || characterObject.Occupation == Occupation.Gangster || characterObject.Occupation == Occupation.CaravanGuard))
+                    unitList.Add(characterObject);
+            }
+            Debugger.AddEntry("Detected " + unitList.Count().ToString() + " relevant units");
+        }
+
+        //Build List for Min and Max equipment value
+        public static void GatherEquipmentData()
+        {
+            Debugger.AddEntry("Gather Equipment Data Hit");
+
+            List<float> initEquipmentScores = new List<float>();
+            foreach (CharacterObject co in unitList)
+            {
+                float total = 0;
+                foreach (Equipment e in co.BattleEquipments)
+                {
+                    for (int i = 0; i < (int)EquipmentIndex.NumEquipmentSetSlots; i++)
+                    {
+                        ItemObject item = e[i].Item;
+                        if (item != null)
+                            total += (float)Math.Sqrt(item.Value);
+                    }
+                }
+                total = total * 10 / co.BattleEquipments.Count();
+
+                initEquipmentScores.Add(total);
+            }
+
+            valueMin = initEquipmentScores.Min();
+            valueMax = initEquipmentScores.Max();
+
+            Debugger.AddEntry("Gather Equipment Data End || Min =" + valueMin + " || Max =" + valueMax);
+        }
+
         private static float GetWeightFactor(CharacterObject __instance)
         {
             __instance.GetSimulationAttackPower(out float attack_points, out float defense_points);
-            float weight = attack_points + defense_points;
-            float min = weightMin;
-            float max = weightMax;
-            float factor = (float)Math.Pow(((weight - min) / (max - min)) - (min / (max - min)), 2);
+
+            float weight = attack_points + defense_points + GetCashValue(__instance);
+            float min = weightMin + valueMin;
+            float max = weightMax + valueMax;
+            float factor = (float)Math.Pow(((weight - min) / (max - min)) - (min / (max - min)), settings.BSIStrengthCurve);
             return factor;
+        }
+
+        private static float GetCashValue(CharacterObject __instance)
+        {
+
+            float total = 0;
+            foreach (Equipment e in __instance.BattleEquipments)
+            {
+                for (int i = 0; i < (int)EquipmentIndex.NumEquipmentSetSlots; i++)
+                {
+                    ItemObject item = e[i].Item;
+                    if (item != null)
+                        total += (float) Math.Sqrt(item.Value);
+                }
+            }
+            total = total / __instance.BattleEquipments.Count();
+
+            return total;
         }
 
         private static float GetTypeFactor(CharacterObject __instance)
@@ -104,7 +152,7 @@ namespace BSIWageModel
 
             else
             {
-                __result = (int)Math.Round(min + (GetTypeFactor(__instance) * (float)Math.Pow((double)(__instance.Level / 32), 2) * (max - min)));
+                __result = (int)Math.Round(min + (GetTypeFactor(__instance) * (float)Math.Pow((double)(__instance.Level / 32), settings.BSIStrengthCurve) * (max - min)));
                 __result = Math.Max(__result, 1);
             }
 
