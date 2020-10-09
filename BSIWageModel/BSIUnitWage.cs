@@ -65,6 +65,7 @@ namespace BSIWageModel
         public static void GatherValidCharacters()
         {
             unitList.Clear();
+            Debugger.AddEntry("Gathering Valid Characters with BSI Compat Option set to " + settings.BSIMainModCompat.ToString());
             foreach (CharacterObject characterObject in CharacterObject.All)
             {
                 if (settings.BSIMainModCompat is true && characterObject.StringId.StartsWith("mod_"))
@@ -75,6 +76,16 @@ namespace BSIWageModel
                 {
                     unitList.Add(characterObject);
                 }
+            }
+
+            //User Error Exception Catcher
+            if (unitList.IsEmpty())
+            {
+                Debugger.AddEntry("Method Found no valid troops! Please make sure are not using Main Mod Compat option incorrectly!");
+                Debugger.PrintMessage("ERROR: Please make sure only use BSI Wage Model Compatiblity Options if needed!");
+                settings.BSIMainModCompat = false;
+                try { GatherValidCharacters(); }
+                catch (Exception ex) { Debugger.AddExceptionLog("GATHER VALID CHARACTERS ERROR", ex); }
             }
             Debugger.AddEntry("Detected " + unitList.Count().ToString() + " relevant units");
         }
