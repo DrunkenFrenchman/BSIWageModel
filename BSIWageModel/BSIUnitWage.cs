@@ -60,16 +60,24 @@ namespace BSIWageModel
             Debugger.AddEntry("Gather Weight Data End || Min =" + weightMin + " || Max =" + weightMax);
             //DEBUG LOG
         }
+
         //Build List of Valid Chars
         public static void GatherValidCharacters()
         {
             unitList.Clear();
             foreach (CharacterObject characterObject in CharacterObject.All)
             {
-                if (characterObject != null && !characterObject.IsTemplate && (characterObject.Occupation == Occupation.Soldier || characterObject.Occupation == Occupation.Mercenary || characterObject.Occupation == Occupation.Bandit || characterObject.Occupation == Occupation.Gangster || characterObject.Occupation == Occupation.CaravanGuard))
+                if (settings.BSIMainModCompat is true && characterObject.StringId.StartsWith("mod_"))
+                {
                     unitList.Add(characterObject);
+                }
+                else if (characterObject != null && !characterObject.IsTemplate && (characterObject.Occupation == Occupation.Soldier || characterObject.Occupation == Occupation.Mercenary || characterObject.Occupation == Occupation.Bandit || characterObject.Occupation == Occupation.Gangster || characterObject.Occupation == Occupation.CaravanGuard))
+                {
+                    unitList.Add(characterObject);
+                }
+                Debugger.AddEntry("Detected " + unitList.Count().ToString() + " relevant units");
+
             }
-            Debugger.AddEntry("Detected " + unitList.Count().ToString() + " relevant units");
         }
 
         //Build List for Min and Max equipment value
