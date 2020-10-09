@@ -153,7 +153,7 @@ namespace BSIWageModel
             if (!__instance.IsHero)
             {
 
-                __result = (int)Math.Round(min + (GetTypeFactor(__instance) * (GetWeightFactor(__instance) * (max - min))));
+                __result = (int)Math.Round(min + (GetTypeFactor(__instance) * (GetWeightFactor(__instance) * (max - min) / (6 / Math.Max(1, __instance.Tier)))));
                 __result = Math.Max(__result, 1);
             }
 
