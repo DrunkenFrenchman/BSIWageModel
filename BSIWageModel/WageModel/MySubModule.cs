@@ -37,27 +37,6 @@ namespace BSI.WageModel
             }
         }
 
-        protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
-        {
-            if (game.GameType is Campaign)
-            {
-                CampaignGameStarter cgs = gameStarterObject as CampaignGameStarter;
-                if (settings.BSIWageModelToggle is true)
-                {
-                    try
-                    {
-                        cgs.AddModel(new BSIPartyWageModel());
-                        Debug.AddEntry("BSIPartyWageModel added");
-                    }
-                    catch (Exception ex)
-                    {
-                        BSI.WageModel.Debug.PrintMessage("ERROR: BSI Wage Model Failed Initializing!"); // Display message in Game
-                        Debug.AddExceptionLog("CAMPAIGN GAME STARTER ERROR", ex);
-                    }
-                }
-            }
-        }
-
         public override void OnGameInitializationFinished(Game game)
         {
             Debug.AddEntry("Starting Data Setup");
@@ -65,12 +44,6 @@ namespace BSI.WageModel
             UnitWage.DataSetup();
 
             Debug.AddEntry("Setting Default Party Wage Model Value");
-            try
-            {
-                typeof(GameModels).GetProperty("PartyWageModel").SetValue(Campaign.Current.Models, new BSIPartyWageModel());
-                Debug.AddEntry("Set Party Wage Model to: " + Campaign.Current.Models.PartyWageModel.ToString());
-            }
-            catch (Exception ex) { Debug.AddExceptionLog("PARTY WAGE MODEL SETTER ERROR", ex); }
         }
     }
 }

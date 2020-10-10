@@ -234,7 +234,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WageModel\BSIPartyWageModel.cs" />
     <Compile Include="WageModel\BSIUnitWage.cs" />
     <Compile Include="WageModel\BSIPatcher.cs" />
     <Compile Include="WageModel\BSICharacterObjectPatch.cs" />
