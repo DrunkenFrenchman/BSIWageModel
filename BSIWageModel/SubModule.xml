@@ -12,7 +12,7 @@
         <DependedModule Id="Sandbox"/>
         <DependedModule Id="StoryMode"/>
         <DependedModule Id="Bannerlord.Harmony"/>
-        <DependedModule Id="Bannerlord.MBOptionScreen.MCMv3"/>
+        <DependedModule Id="Bannerlord.MBOptionScreen"/>
     </DependedModules>
 
     <SubModules>

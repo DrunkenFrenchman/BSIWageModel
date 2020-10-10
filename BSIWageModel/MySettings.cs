@@ -36,7 +36,7 @@ namespace BSI.WageModel
         [SettingPropertyFloatingInteger("{=BSIWM_SETTING_36}Recruitment Cost Multiplier", 1f, 20f, HintText = "{=BSIWM_SETTING_DESC_36}This is a multiplier value used to modify the recruitment cost of troops. Recuitment cost is equal to [daily wage] x [this number]", Order = 5, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIWM_SETTING_GROUP_01}1. Wage Model", GroupOrder = 0)]
         public float BSIRecruitmentMult { get; set; } = 10f;
-        [SettingPropertyFloatingInteger("{=BSIWM_SETTING_37}Troop Strength Curve", 0.1f, 3f, HintText = "{=BSIWM_SETTING_DESC_37}Basically, changes shape of curve. Value below one will make lower incomes higher and higher incomes lower. Value above 1 will make higher wages higher and lower wages lower", Order = 6, RequireRestart = false)]
+        [SettingPropertyFloatingInteger("{=BSIWM_SETTING_37}Troop Strength Curve", 0.1f, 3f, HintText = "{=BSIWM_SETTING_DESC_37}Basically, changes shape of curve. Value below one will make curve steeper. Value above 1 will make curve flatter", Order = 6, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIWM_SETTING_GROUP_01}1. Wage Model", GroupOrder = 0)]
         public float BSIStrengthCurve { get; set; } = 1.3f;
 
@@ -64,7 +64,7 @@ namespace BSI.WageModel
         public override IDictionary<string, Func<BaseSettings>> GetAvailablePresets()
         {
             var basePresets = base.GetAvailablePresets();
-            basePresets.Add("Blood Shit and Iron", () => new MySettings()
+            basePresets.Add("Realistic Battle Mod", () => new MySettings()
             {
                 BSIWageModelToggle = true,
                 BSIMinWage = 1,
@@ -80,10 +80,10 @@ namespace BSI.WageModel
                 BSIWageModelToggle = true,
                 BSIMinWage = 1,
                 BSIMaxWage = 60,
-                BSIMountedWageMult = 3f,
+                BSIMountedWageMult = 2f,
                 BSIMercenaryWageMult = 1.2f,
                 BSIRecruitmentMult = 10f,
-                BSIStrengthCurve = 1.3f,
+                BSIStrengthCurve = 0.4f,
                 BSIMainModCompat = false,
             });
             basePresets.Add("Debug", () => new MySettings()
