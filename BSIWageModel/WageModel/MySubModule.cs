@@ -3,6 +3,9 @@ using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.SandBox.GameComponents.Party;
+using MCM.Abstractions.Settings.Base;
+using MCM.Abstractions.FluentBuilder.Implementation;
 
 namespace BSI.WageModel
 {
@@ -16,9 +19,9 @@ namespace BSI.WageModel
 
             System.Diagnostics.Debug.Print("Module Loaded");
 
+
             if (settings.BSIWMDebug is true)
             {
-                Harmony.DEBUG = true;
                 Debug.DebugStart();
             }
             if (settings.BSIWageModelToggle is true)
@@ -44,6 +47,12 @@ namespace BSI.WageModel
             UnitWage.DataSetup();
 
             Debug.AddEntry("Setting Default Party Wage Model Value");
+            try
+            {
+                typeof(GameModels).GetProperty("PartyWageModel").SetValue(Campaign.Current.Models, new DefaultPartyWageModel());
+                Debug.AddEntry("Set Party Wage Model to: " + Campaign.Current.Models.PartyWageModel.ToString());
+            }
+            catch (Exception ex) { Debug.AddExceptionLog("PARTY WAGE MODEL SETTER ERROR", ex); }
         }
     }
 }
