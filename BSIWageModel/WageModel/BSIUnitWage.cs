@@ -142,7 +142,7 @@ namespace BSI.WageModel
                         total += (float) Math.Sqrt(item.Value);
                 }
             }
-            total = total / __instance.BattleEquipments.Count();
+            total /= __instance.BattleEquipments.Count();
 
             return total;
         }

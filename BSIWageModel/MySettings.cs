@@ -2,8 +2,11 @@
 using MCM.Abstractions.Attributes;
 using MCM.Abstractions.Attributes.v2;
 using MCM.Abstractions.Settings.Base.Global;
+using MCM.Abstractions.Settings.Base;
 
-
+using System;
+using System.Collections.Generic;
+using MCM.Abstractions.Settings.Models;
 
 namespace BSI.WageModel
 {
@@ -33,7 +36,7 @@ namespace BSI.WageModel
         [SettingPropertyFloatingInteger("{=BSIWM_SETTING_36}Recruitment Cost Multiplier", 1f, 20f, HintText = "{=BSIWM_SETTING_DESC_36}This is a multiplier value used to modify the recruitment cost of troops. Recuitment cost is equal to [daily wage] x [this number]", Order = 5, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIWM_SETTING_GROUP_01}1. Wage Model", GroupOrder = 0)]
         public float BSIRecruitmentMult { get; set; } = 10f;
-        [SettingPropertyFloatingInteger("{=BSIWM_SETTING_37}Troop Strength Curve", 0.1f, 3f, HintText = "{=BSIWM_SETTING_DESC_37}Basically, changes shape of curve. Value below one will make lower incomes higher and higher incomes lower. Value above 1 will make higher wages higher and lower wages lower", Order = 6, RequireRestart = false)]
+        [SettingPropertyFloatingInteger("{=BSIWM_SETTING_37}Troop Strength Curve", 0.1f, 3f, HintText = "{=BSIWM_SETTING_DESC_37}Basically, changes shape of curve. Value below one will make curve steeper. Value above 1 will make curve flatter", Order = 6, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIWM_SETTING_GROUP_01}1. Wage Model", GroupOrder = 0)]
         public float BSIStrengthCurve { get; set; } = 1.3f;
 
@@ -51,35 +54,48 @@ namespace BSI.WageModel
         //Mod Compatibilty Options
         [SettingPropertyBool("{=BSIWM_SETTING_BSI}Blood Shit and Iron", HintText = "{=BSIWM_SETTING_DESC_BSI}Check this if you are playing with the Blood Shit and Iron main mod - You really should be...", Order = 0, RequireRestart = true)]
         [SettingPropertyGroup("{=BSIWM_SETTING_GROUP_03}3. Mod Compatibility Options", GroupOrder = 2)]
-        public bool BSIMainModCompat { get; set; } = true;
+        public bool BSIMainModCompat { get; set; } = false;
 
         //Debug Toggle
         [SettingPropertyBool("{=BSIWM_SETTING_DEBUG}Debugging", HintText = "{=BSIWM_SETTING_DESC_DEBUG}Check this to enable Debug mode", Order = 0, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIWM_SETTING_GROUP_03}4. Debug", GroupOrder = 3)]
-        public bool BSIWMDebug { get; set; } = true;
+        public bool BSIWMDebug { get; set; } = false;
+
+        public override IDictionary<string, Func<BaseSettings>> GetAvailablePresets()
+        {
+            var basePresets = base.GetAvailablePresets();
+            basePresets.Add("Realistic Battle Mod", () => new MySettings()
+            {
+                BSIWageModelToggle = true,
+                BSIMinWage = 1,
+                BSIMaxWage = 60,
+                BSIMountedWageMult = 3f,
+                BSIMercenaryWageMult = 1.2f,
+                BSIRecruitmentMult = 10f,
+                BSIStrengthCurve = 1.3f,
+                BSIMainModCompat = true,
+            }); ;
+            basePresets.Add("Native", () => new MySettings()
+            {
+                BSIWageModelToggle = true,
+                BSIMinWage = 1,
+                BSIMaxWage = 60,
+                BSIMountedWageMult = 2f,
+                BSIMercenaryWageMult = 1.2f,
+                BSIRecruitmentMult = 10f,
+                BSIStrengthCurve = 0.4f,
+                BSIMainModCompat = false,
+            });
+            basePresets.Add("Debug", () => new MySettings()
+            {
+                BSIWageModelToggle = true,
+                BSIMainModCompat = false,
+                BSIWMDebug = true,
+            });
+            return basePresets;
+        }
 
 
 
     }
-
-    //public override IDictionary<string, Func<BaseSettings>> GetAvailablePresets()
-    //{
-    //    var basePresets = base.GetAvailablePresets(); // include the 'Default' preset that MCM provides
-    //    basePresets.Add("Reverse", () => new CustomSettings()
-    //    {
-    //        Property1 = false,
-    //        Property2 = true
-    //    });
-    //    basePresets.Add("False", () => new CustomSettings()
-    //    {
-    //        Property1 = false,
-    //        Property2 = false
-    //    });
-    //    basePresets.Add("True", () => new CustomSettings()
-    //    {
-    //        Property1 = true,
-    //        Property2 = true
-    //    });
-    //    return basePresets;
-    //}
 }
